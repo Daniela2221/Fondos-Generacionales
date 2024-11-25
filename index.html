@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>¿A qué fondo generacional perteneces?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        p {
+            color: #34495e;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #3498db;
+        }
+        img.logo {
+            width: 150px; /* Logo más pequeño */
+            display: block;
+            margin: 20px auto;
+        }
+        img.generations {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 10px; /* Opcional: redondea las esquinas */
+        }
+        #resultado {
+            font-weight: bold;
+            text-align: center;
+            font-size: 24px;
+            color: #003366; /* Azul oscuro del logo */
+            font-family: 'Verdana', sans-serif; /* Tipografía más bonita */
+        }
+        #confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #003366; /* Azul del confeti */
+            animation: fall 3s ease-in-out infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(600px) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo de la empresa -->
+    <img src="acoplogofullcolor-01.jpg" alt="Logo de la Asociación Costarricense de Operadoras de Pensiones" class="logo">
+    
+    <!-- Título principal -->
+    <h1>¿A qué fondo generacional perteneces?</h1>
+
+    <!-- Explicación sobre los fondos generacionales -->
+    <h2>¿Qué son los Fondos Generacionales?</h2>
+    <p id="descripcionGeneral">
+        Los Fondos Generacionales son una nueva forma de gestionar las pensiones en el Régimen Obligatorio de Pensiones Complementarias (ROP). 
+        Agrupan a los afiliados según su año de nacimiento, permitiendo una administración más eficiente y adecuada a las necesidades de cada etapa de la vida.
+    </p>
+
+    <!-- Formulario para ingresar el año de nacimiento -->
+    <label for="birthYear">Ingresa tu año de nacimiento:</label>
+    <input type="number" id="birthYear" placeholder="Ej. 1985">
+    <button onclick="calcularFondo()">Calcular Fondo</button>
+
+    <!-- Resultado del cálculo -->
+    <p id="resultado"></p>
+
+    <!-- Descripción detallada del fondo -->
+    <div id="descripcionFondo"></div>
+
+    <!-- Imagen destacada: se muestra debajo de la explicación -->
+    <img src="generations.png" alt="Fondos Generacionales: Ahorro y Familias" class="generations">
+
+    <!-- Lógica en JavaScript -->
+    <script>
+        // Función para mostrar confeti
+        function lanzarConfeti() {
+            const confetti = document.createElement("div");
+            confetti.setAttribute("id", "confetti");
+            document.body.appendChild(confetti);
+
+            for (let i = 0; i < 100; i++) {
+                const piece = document.createElement("div");
+                piece.className = "confetti-piece";
+                piece.style.left = Math.random() * window.innerWidth + "px";
+                piece.style.animationDelay = Math.random() * 2 + "s";
+                confetti.appendChild(piece);
+            }
+
+            setTimeout(() => confetti.remove(), 3000); // Quitar confeti después de 3 segundos
+        }
+
+        function calcularFondo() {
+            const year = document.getElementById("birthYear").value;
+            const resultado = document.getElementById("resultado");
+            const descripcionFondo = document.getElementById("descripcionFondo");
+            let fondo = "";
+            let descripcion = "";
+
+            // Determina el fondo y la descripción correspondiente
+            if (year <= 1969) {
+                fondo = "Fondo A";
+                descripcion = "<p><strong>Fondo A:</strong> Diseñado para personas nacidas en 1969 o antes. Este fondo busca preservar el capital y minimizar los riesgos, ideal para quienes están cerca de la jubilación o ya han alcanzado esta etapa.</p>";
+            } else if (year >= 1970 && year <= 1979) {
+                fondo = "Fondo B";
+                descripcion = "<p><strong>Fondo B:</strong> Para personas nacidas entre 1970 y 1979. Combina crecimiento moderado y seguridad, siendo adecuado para quienes se encuentran en una etapa media de acumulación de capital.</p>";
+            } else if (year >= 1980 && year <= 1989) {
+                fondo = "Fondo C";
+                descripcion = "<p><strong>Fondo C:</strong> Orientado a personas nacidas entre 1980 y 1989. Este fondo prioriza maximizar el crecimiento del capital a mediano plazo, ideal para quienes tienen un horizonte de jubilación más lejano.</p>";
+            } else if (year >= 1990) {
+                fondo = "Fondo D";
+                descripcion = "<p><strong>Fondo D:</strong> Diseñado para personas nacidas en 1990 o después. Este fondo se enfoca en el crecimiento a largo plazo, asumiendo mayores riesgos con el objetivo de maximizar los rendimientos para generaciones jóvenes.</p>";
+            } else {
+                fondo = "Por favor, ingresa un año válido.";
+                descripcion = "";
+            }
+
+            // Actualiza el resultado y la descripción
+            resultado.innerText = fondo;
+            descripcionFondo.innerHTML = descripcion;
+
+            // Lanzar confeti si el año es válido
+            if (fondo !== "Por favor, ingresa un año válido.") {
+                lanzarConfeti();
+            }
+        }
+    </script>
+</body>
+</html>
